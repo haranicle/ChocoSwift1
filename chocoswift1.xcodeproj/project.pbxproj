@@ -388,6 +388,7 @@
 				F23724C41C6EEA71005D1E8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F23724C51C6EEA71005D1E8A /* Build configuration list for PBXNativeTarget "chocoswift1Tests" */ = {
 			isa = XCConfigurationList;
@@ -396,6 +397,7 @@
 				F23724C71C6EEA71005D1E8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
