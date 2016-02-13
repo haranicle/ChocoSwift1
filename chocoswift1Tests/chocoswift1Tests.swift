@@ -13,9 +13,71 @@ protocol Greetable {
     func hello() -> String
 }
 
-
-
 class chocoswift1Tests: XCTestCase {
+    
+    func test_型のネストについて_Struct() {
+        
+        struct Building {
+            var name: String
+            
+            struct Floor {
+                var shopList: [String]
+            }
+        }
+        
+        let muza = Building(name: "ミューザ")
+        //                           ↓ここが重要
+        let muzaFirstFloor = Building.Floor(shopList: ["サイゼリア", "リンガーハット", "食い物屋わん"])
+        
+        XCTAssert(muza.name == "ミューザ")
+        XCTAssert(muzaFirstFloor.shopList == ["サイゼリア", "リンガーハット", "食い物屋わん"])
+    }
+    
+    func test_型のネストについて_Class() {
+        
+        class Building {
+            var name: String = "ミューザ"
+            
+            class Floor {
+                var shopList: [String] = ["サイゼリア", "リンガーハット", "食い物屋わん"]
+            }
+        }
+        
+        let muza = Building()
+        //                           ↓ここが重要
+        let muzaFirstFloor = Building.Floor()
+        
+        XCTAssert(muza.name == "ミューザ")
+        XCTAssert(muzaFirstFloor.shopList == ["サイゼリア", "リンガーハット", "食い物屋わん"])
+    }
+    
+    // memo: protocolのネストってできないの
+    //       いろんなソースから写真を取ってこれるような機能を作りたい
+    //       例: PhotoKit, AssetsLibrary, Facebook, Instagram...
+    /*
+        protocol AssetCollectable {
+            // この2つの型を紐付けたい
+            typealias AssetCollection
+            typealias Asset
+    
+            // ↓ここをclassにしても🙅
+            protocol AlbumList {
+                func albumCount()
+                subscript (index:Int) -> AssetCollection
+            }
+    
+            protocol Album {
+                func title() -> String
+                func assetCount()
+                subscript (index:Int) -> Asset
+            }
+    
+            protocol Asset {
+                func image(handler:(UIImage))
+            }
+            
+        }
+*/
     
     func test_isとisKindOfClassの挙動について() {
         
@@ -44,10 +106,10 @@ class chocoswift1Tests: XCTestCase {
         
         let person = PersonClass()
         XCTAssertTrue(person is PersonClass)
-        XCTAssertTrue(person is HaraClass) // 🙅Fail
+        // XCTAssertTrue(person is HaraClass) // 🙅Fail
         XCTAssertTrue(person is Greetable)
         XCTAssertTrue(person.isKindOfClass(PersonClass))
-        XCTAssertTrue(person.isKindOfClass(HaraClass)) // 🙅Fail
+        // XCTAssertTrue(person.isKindOfClass(HaraClass)) // 🙅Fail
         
         let anyHara = HaraClass() as AnyObject
         XCTAssertTrue(anyHara is PersonClass)
@@ -58,10 +120,10 @@ class chocoswift1Tests: XCTestCase {
         
         let anyPerson = PersonClass() as AnyObject
         XCTAssertTrue(anyPerson is PersonClass)
-        XCTAssertTrue(anyPerson is HaraClass) // 🙅Fail
+        // XCTAssertTrue(anyPerson is HaraClass) // 🙅Fail
         XCTAssertTrue(anyPerson is Greetable)
         XCTAssertTrue(anyPerson.isKindOfClass(PersonClass))
-        XCTAssertTrue(anyPerson.isKindOfClass(HaraClass)) // 🙅Fail
+        // XCTAssertTrue(anyPerson.isKindOfClass(HaraClass)) // 🙅Fail
     }
     
     func test_mutatingについて () {
@@ -104,5 +166,9 @@ class chocoswift1Tests: XCTestCase {
         
     }
     
+    
+    // memo: subscriptって特にprotocol採用しなくても使えるのなんで、引数がUIntじゃなくてIntなのもきもい
+    // memo: required init?(coder aDecoder: NSCoder) って何者?
+    // memo: autoclosureの使いドコロがよくわからん
    
 }
